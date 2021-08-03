@@ -22,7 +22,7 @@ module.exports = {
   defaultNetwork: 'goerli',
   networks: {
     goerli: {
-      url: 'https://goerli.infura.io/v3/84cc86998bc74080960afed2bd784b02',
+      url: process.env.GOERLI_PROVIDER,
       accounts: [`0x${process.env.GOERLI_KEY}`],
     },
   },
