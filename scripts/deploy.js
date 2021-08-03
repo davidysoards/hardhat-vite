@@ -1,10 +1,10 @@
 const hre = require('hardhat');
 
 async function main() {
-  const HackTelephone = await hre.ethers.getContractFactory('HackTelephone');
-  const hackTelephone = await HackTelephone.deploy();
-  await hackTelephone.deployed();
-  console.log('HackTelephone deployed to:', hackTelephone.address);
+  const Greeter = await hre.ethers.getContractFactory('Greeter');
+  const greeter = await Greeter.deploy('Hello, Hardhat!');
+  await greeter.deployed();
+  console.log('Greeter deployed to:', greeter.address);
 }
 
 main()

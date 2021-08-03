@@ -1,39 +1,63 @@
 import { ethers } from 'ethers';
 import React, { useState } from 'react';
-import HackTele from '../artifacts/contracts/4_HackTelephone.sol/HackTelephone.json';
+import Greeter from '../artifacts/contracts/Greeter.sol/Greeter.json';
 
-const hackTeleAddress = '0x9Ba4552E1Ea4EC240A5dB8dFD279c6CE02CaCFd1';
+const greeterAddress = '0xaaED153Ea94100f37aE0D676182cA6fdaD7d8A0E';
 
 export default function App() {
-  const [teleAddress, setTeleAddress] = useState('');
+  const [greeting, setGreetingValue] = useState('');
+
   async function requestAccount() {
     await window.ethereum.request({ method: 'eth_requestAccounts' });
   }
 
-  async function hackTelephone() {
+  async function fetchGreeting() {
+    if (typeof window.ethereum !== 'undefined') {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const contract = new ethers.Contract(greeterAddress, Greeter.abi, provider);
+      try {
+        const data = await contract.greet();
+        console.log('data: ', data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+
+  async function setGreeting() {
+    if (!greeting) return;
     if (typeof window.ethereum !== 'undefined') {
       await requestAccount();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(hackTeleAddress, HackTele.abi, provider.getSigner());
-      const transaction = await contract.takeOwnership(teleAddress);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(greeterAddress, Greeter.abi, signer);
+      const transaction = await contract.setGreeting(greeting);
       await transaction.wait();
+      fetchGreeting();
     }
   }
 
   return (
-    <div className="p-8">
-      <h1 className="text-4xl font-bold uppercase text-center mb-8">Let's Play Ethernaut</h1>
-      <h2 className="text-2xl font-bold mb-2">4) Telephone</h2>
-      <label htmlFor="your-rinkeby" className="block">
-        Your Rinkeby Address
-      </label>
-      <input type="text" onChange={(e) => setTeleAddress(e.target.value)} placeholder="####" id="your-rinkeby" />
+    <div className="p-8 container mx=auto">
+      <h1 className="text-4xl font-bold uppercase tracking-widest text-center mb-8">Create Vite DApp</h1>
+      <h2 className="text-2xl font-bold mb-2">Greeter </h2>
       <button
         type="button"
-        className="p-2 bg-blue-500 text-white border-2 border-blue-500 mt-2"
-        onClick={hackTelephone}
+        onClick={fetchGreeting}
+        className="p-2 bg-blue-500 text-white font-bold border-2 border-blue-500 mt-2"
       >
-        Take Ownership
+        Fetch Greeting
+      </button>
+      <label htmlFor="your-rinkeby" className="block mt-6">
+        New Greeting Text
+      </label>
+      <input type="text" onChange={(e) => setGreetingValue(e.target.value)} placeholder="Wassup?" />
+      <button
+        type="button"
+        onClick={setGreeting}
+        className="p-2 bg-green-500 text-white font-bold border-2 border-green-500 ml-2"
+      >
+        Set Greeting
       </button>
     </div>
   );
