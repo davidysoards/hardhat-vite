@@ -23,18 +23,27 @@ export default function App() {
   return (
     <div className="p-8">
       <h1 className="text-4xl font-bold uppercase text-center mb-8">Let's Play Ethernaut</h1>
-      <h2 className="text-2xl font-bold mb-2">4) Telephone</h2>
-      <label htmlFor="your-rinkeby" className="block">
-        Your Rinkeby Address
-      </label>
-      <input type="text" onChange={(e) => setTeleAddress(e.target.value)} placeholder="####" id="your-rinkeby" />
-      <button
-        type="button"
-        className="p-2 bg-blue-500 text-white border-2 border-blue-500 mt-2"
-        onClick={hackTelephone}
-      >
-        Take Ownership
-      </button>
+      {/* LEVEL 4 */}
+      <div className=" max-w-screen-md mx-auto bg-gray-200 p-6">
+        <h2 className="text-2xl font-bold mb-2">4) Telephone</h2>
+        <label>
+          Your Rinkeby Address
+          <input
+            type="text"
+            onChange={(e) => setTeleAddress(e.target.value)}
+            placeholder="####"
+            id="your-rinkeby"
+            className="block mt-1"
+          />
+        </label>
+        <button
+          type="button"
+          className="p-2 bg-blue-500 text-white border-2 border-blue-500 mt-3"
+          onClick={hackTelephone}
+        >
+          Take Ownership
+        </button>
+      </div>
     </div>
   );
 }
