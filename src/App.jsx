@@ -2,7 +2,8 @@ import { ethers } from 'ethers';
 import React, { useState } from 'react';
 // import HackTele from '../artifacts/contracts/4_HackTelephone.sol/HackTelephone.json';
 // import UseTheForce from '../artifacts/contracts/7_UseTheForce.sol/UseTheForce.json';
-import MaliciousKing from '../artifacts/contracts/9_MaliciousKing.sol/MaliciousKing.json';
+// import MaliciousKing from '../artifacts/contracts/9_MaliciousKing.sol/MaliciousKing.json';
+import ReEnter from '../artifacts/contracts/10_ReEnter.sol/ReEnter.json';
 
 export default function App() {
   // const [teleAddress, setTeleAddress] = useState('');
@@ -45,16 +46,42 @@ export default function App() {
   //   }
   // }
 
-  async function beKing() {
+  // async function beKing() {
+  //   if (typeof window.ethereum !== 'undefined') {
+  //     await requestAccount();
+  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     const contract = new ethers.Contract(
+  //       '0x7a3542a2F2a18D7e6B68EdaD7F463838822Db2Be',
+  //       MaliciousKing.abi,
+  //       provider.getSigner()
+  //     );
+  //     const transaction = await contract.becomeKing({ value: ethers.utils.parseEther('1.0') });
+  //     await transaction.wait();
+  //   }
+  // }
+
+  async function makeDonation() {
     if (typeof window.ethereum !== 'undefined') {
       await requestAccount();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const contract = new ethers.Contract(
-        '0x7a3542a2F2a18D7e6B68EdaD7F463838822Db2Be',
-        MaliciousKing.abi,
+        '0x5485EAf093f0c3cAAd85f535f79F0F781EBe8dC4',
+        ReEnter.abi,
         provider.getSigner()
       );
-      const transaction = await contract.becomeKing({ value: ethers.utils.parseEther('1.0') });
+      const transaction = await contract.donateToSelf();
+      await transaction.wait();
+    }
+  }
+
+  async function makeWithdrawal() {
+    if (typeof window.ethereum !== 'undefined') {
+      await requestAccount();
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const transaction = await signer.sendTransaction({
+        to: '0x5485EAf093f0c3cAAd85f535f79F0F781EBe8dC4',
+      });
       await transaction.wait();
     }
   }
@@ -83,6 +110,7 @@ export default function App() {
           Take Ownership
         </button>
       </div> */}
+
       {/* LEVEL 7 Force */}
       {/* <div className=" max-w-screen-md mx-auto bg-gray-200 p-6">
         <h2 className="text-2xl font-bold mb-2">7) Force</h2>
@@ -101,13 +129,33 @@ export default function App() {
           Kill Force
         </button>
       </div> */}
+
       {/* LEVEL 9 King */}
-      <div className=" max-w-screen-md mx-auto bg-gray-200 p-6">
+      {/* <div className=" max-w-screen-md mx-auto bg-gray-200 p-6">
         <h2 className="text-2xl font-bold mb-2">9) King</h2>
         <button type="button" className="p-2 bg-red-500 text-white border-2 border-red-500 mt-3 block" onClick={beKing}>
           Be King 4 Life
         </button>
         <p className="mt-1 italic">CAUTION: Costs 1 ETH!!</p>
+      </div> */}
+
+      {/* LEVEL 10 ReEnter */}
+      <div className=" max-w-screen-md mx-auto bg-gray-200 p-6">
+        <h2 className="text-2xl font-bold mb-2">10) ReEnter</h2>
+        <button
+          type="button"
+          className="p-2 bg-red-500 text-white border-2 border-red-500 mt-3 block"
+          onClick={makeDonation}
+        >
+          Donate
+        </button>
+        <button
+          type="button"
+          className="p-2 bg-red-500 text-white border-2 border-red-500 mt-3 block"
+          onClick={makeWithdrawal}
+        >
+          Withdraw
+        </button>
       </div>
     </div>
   );

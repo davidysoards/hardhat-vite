@@ -11,10 +11,15 @@ async function main() {
   // await useTheForce.deployed();
   // console.log('UseTheForce deployed to:', useTheForce.address);
 
-  const MaliciousKing = await hre.ethers.getContractFactory('MaliciousKing');
-  const maliciousKing = await MaliciousKing.deploy('0x657ddA2001E32C225467EBAC89cF1FaaC9c6d747');
-  await maliciousKing.deployed();
-  console.log('MaliciousKing deployed to:', maliciousKing.address);
+  // const MaliciousKing = await hre.ethers.getContractFactory('MaliciousKing');
+  // const maliciousKing = await MaliciousKing.deploy('0x657ddA2001E32C225467EBAC89cF1FaaC9c6d747');
+  // await maliciousKing.deployed();
+  // console.log('MaliciousKing deployed to:', maliciousKing.address);
+
+  const ReEnter = await hre.ethers.getContractFactory('ReEnter');
+  const reEnter = await ReEnter.deploy();
+  await reEnter.deployed();
+  console.log('ReEnter deployed to:', reEnter.address);
 }
 
 main()
